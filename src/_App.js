@@ -1,11 +1,24 @@
-import { StatusBar } from "expo-status-bar"
 import { StyleSheet, Text, View } from "react-native"
-import MapView from 'react-native-maps';
+import InfoMap from './components/InfoMap';
+
+const myPlace = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "Point",
+        coordinates: [64.165329, 48.844287],
+      }
+    }
+  ]
+}
 
 export default function _App() {
   return (
     <View style={styles.container}>
-      <MapView style={styles.map}/>
+      <InfoMap style={styles.map}/>
     </View>
   )
 }
