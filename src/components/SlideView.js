@@ -53,9 +53,9 @@ export default function SlideView({children, initialSlide, barHeight}) {
   let buttons = children.map(child =>
     <Button
     key={child.props.slideId}
-    title={child.props.slideId}
+    title={child.props.name}
     style={styles.slideButton}
-    onPress={() => setSlide(child.props.slideId)}>{child.props.name}</Button>
+    onPress={() => setSlide(child.props.slideId)}/>
   )
 
   return (
