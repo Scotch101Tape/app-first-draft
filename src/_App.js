@@ -1,7 +1,11 @@
 import { StyleSheet, Text, View } from "react-native"
+import { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
+
 import InfoMap from './components/InfoMap';
 import SlideView from './components/SlideView';
 import Slide from './components/Slide';
+import PrayerTimes from './components/PrayerTimes';
 
 const SLIDE_IDS = {
   PRAYER_TIMES: 'prayer-times',
@@ -10,6 +14,22 @@ const SLIDE_IDS = {
 }
 
 export default function _App() {
+  const [location, setLocation] = useState(null)
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return;
+      }
+
+      let location = await Location.getLastKnownPositionAsync({
+        precise: false,
+      });
+      setLocation(location);
+    })();
+  }, [])
+
   return (
     <View style={styles.container}>
       <SlideView barHeight={50} initialSlide={'map'}>
@@ -17,9 +37,7 @@ export default function _App() {
           <InfoMap style={styles.map}/>
         </Slide>
         <Slide name='Prayer Times' slideId={SLIDE_IDS.PRAYER_TIMES}>
-          <Text>
-            Prayer Times
-          </Text>
+          <PrayerTimes location={location}/>
         </Slide>
         <Slide name='Translate' slideId={SLIDE_IDS.TRANSLATE}>
           <Text>
