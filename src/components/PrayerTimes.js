@@ -11,9 +11,8 @@ const styles = StyleSheet.create({
 export default function PrayerTimes({location}) {
   const {latitude, longitude} = location.coords
   const prayerTimes = getPrayerTimes({latitude, longitude})
- // TODO: this,
- // i should put everything in a function
 
+  // TODO: make this look better
   return <View style={styles.container}>
        <Text>
         {JSON.stringify(prayerTimes)}
