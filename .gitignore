@@ -17,3 +17,6 @@ web-build/
 .metro-health-check*
 
 ideas.dev
+
+src/env.js
+.env

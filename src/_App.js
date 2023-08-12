@@ -7,6 +7,7 @@ import SlideView from "./components/SlideView"
 import Slide from "./components/Slide"
 import PrayerTimes from "./components/PrayerTimes"
 import Requires from "./components/Requires"
+import Translator from './components/Translator'
 
 const SLIDE_IDS = {
   PRAYER_TIMES: "prayer-times",
@@ -56,9 +57,9 @@ export default function _App() {
           </Requires>
         </Slide>
         <Slide name="Translate" slideId={SLIDE_IDS.TRANSLATE}>
-          <Text>
-            Translate
-          </Text>
+          <Requires requisites={[/* TODO: add requisite for wifi/data */]} failureMessage={"You shouldn't be seeing this 🤢"}>
+            <Translator/>
+          </Requires>
         </Slide>
       </SlideView>
     </View>
