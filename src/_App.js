@@ -2,18 +2,14 @@ import { StyleSheet, Text, View } from "react-native"
 import { useEffect, useState } from "react"
 import * as Location from "expo-location"
 
-import InfoMap from "./components/InfoMap"
-import SlideView from "./components/SlideView"
-import Slide from "./components/Slide"
-import PrayerTimes from "./components/PrayerTimes"
-import Requires from "./components/Requires"
-import Translator from './components/Translator'
-
-const SLIDE_IDS = {
-  PRAYER_TIMES: "prayer-times",
-  TRANSLATE: "translate",
-  MAP: "map",
-}
+import MapPage from "./components/Pages/MapPage"
+import CompassPage from "./components/Pages/CompassPage"
+import FaqPage from "./components/Pages/FaqPage"
+import HomePage from "./components/Pages/HomePage"
+import InfoPage from "./components/Pages/InfoPage"
+import TranslatorPage from "./components/Pages/TranslatorPage"
+import MultiPageView from './components/MultiPageView'
+import { PAGE_IDS } from './util/constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -26,8 +22,13 @@ const styles = StyleSheet.create({
   }
 })
 
+const pages = [{
+
+}]
+
 export default function _App() {
   const [location, setLocation] = useState(null)
+  const [pageId, setPageId] = useState(PAGE_IDS.HOME)
 
   // Copied from the expo-location examples
   // https://docs.expo.dev/versions/latest/sdk/location/
@@ -45,23 +46,48 @@ export default function _App() {
     })()
   }, [])
 
+  const pageChangeStrategy = (newPageId) => {
+    setPageId(newPageId)
+  }
+
+  // Boilerplate..
+  // At the moment I have decided to write it in this way because I have come
+  // to the conclution that when it comes to jsx, boilerplate is better than
+  // weird map loop things
   return (
     <View style={styles.container}>
-      <SlideView barHeight={50} initialSlide={"map"}>
-        <Slide name="Map" slideId={SLIDE_IDS.MAP}>
-          <InfoMap style={styles.map}/>
-        </Slide>
-        <Slide name="Prayer Times" slideId={SLIDE_IDS.PRAYER_TIMES}>
-          <Requires requisites={[location]} failureMessage={"This feature cannot be used without location data"}>
-            <PrayerTimes location={location}/>
-          </Requires>
-        </Slide>
-        <Slide name="Translate" slideId={SLIDE_IDS.TRANSLATE}>
-          <Requires requisites={[/* TODO: add requisite for wifi/data */]} failureMessage={"You shouldn't be seeing this 🤢"}>
-            <Translator/>
-          </Requires>
-        </Slide>
-      </SlideView>
+      <MultiPageView pageId={pageId}>
+        <HomePage
+          pageId={PAGE_IDS.HOME}
+          pageChangeStrategy={pageChangeStrategy}
+          location={location}
+        />
+        <CompassPage
+          pageId={PAGE_IDS.COMPASS}
+          pageChangeStrategy={pageChangeStrategy}
+          location={location}
+        />
+        <FaqPage
+          pageId={PAGE_IDS.FAQ}
+          pageChangeStrategy={pageChangeStrategy}
+          location={location}
+        />
+        <InfoPage
+          pageId={PAGE_IDS.INFO}
+          pageChangeStrategy={pageChangeStrategy}
+          location={location}
+        />
+        <MapPage
+          pageId={PAGE_IDS.MAP}
+          pageChangeStrategy={pageChangeStrategy}
+          location={location}
+        />
+        <TranslatorPage
+          pageId={PAGE_IDS.TRANSLATOR}
+          pageChangeStrategy={pageChangeStrategy}
+          location={location}
+        />
+      </MultiPageView>
     </View>
   )
 }
