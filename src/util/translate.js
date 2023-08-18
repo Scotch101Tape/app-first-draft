@@ -10,8 +10,8 @@ export function getLanguage({text}) {
   // As is, if the text has arabic then it is arabic
   // otherwise it is english
 
-  // Thank you to https://stackoverflow.com/a/18591041 for this code snippet
-  // Check if any arabic characters are in the string
+  // From https://stackoverflow.com/a/18591041
+  // (License: CC BY-SA 3.0, https://stackoverflow.com/help/licensing)
   const pattern = /[\u0600-\u06FF\u0750-\u077F]/;
   const hasArabic = pattern.test(text)
 

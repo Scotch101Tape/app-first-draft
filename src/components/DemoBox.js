@@ -8,10 +8,10 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderStyle: "dotted",
     borderWidth: 3,
-    flexBasis: "auto",
+    //flexBasis: "auto",
     flexGrow: 1,
-    flexShrink: 1,
-    position: "relative",
+    //flexShrink: 1,
+    //position: "relative",
     padding: 10,
   },
   nameText: {

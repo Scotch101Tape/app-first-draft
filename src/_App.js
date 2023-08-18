@@ -30,16 +30,17 @@ export default function _App() {
   const [location, setLocation] = useState(null)
   const [pageId, setPageId] = useState(PAGE_IDS.HOME)
 
-  // Copied from the expo-location examples
+  // From the expo-location examples
   // https://docs.expo.dev/versions/latest/sdk/location/
+  // (License: MIT, https://github.com/expo/expo/blob/sdk-49/LICENSE)
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync()
+      const {status} = await Location.requestForegroundPermissionsAsync()
       if (status !== "granted") {
         return
       }
 
-      let location = await Location.getLastKnownPositionAsync({
+      const location = await Location.getLastKnownPositionAsync({
         precise: false,
       })
       setLocation(location)
