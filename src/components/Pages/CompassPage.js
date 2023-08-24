@@ -21,8 +21,6 @@ export default function CompassPage({pageChangeStrategy, pageId, location}) {
     qibla = getQibla({latitude, longitude})
   }
 
-  console.log(qibla)
-
   return <View style={styles.container}>
     <DemoBox name="Compass pointing to Mecca">
       <Requires requisites={[location, qibla]} failureMessage="Location permissions needed">
