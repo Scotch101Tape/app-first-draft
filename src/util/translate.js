@@ -37,7 +37,7 @@ export async function translate({text, target}) {
     }
   }
 
-  const url = `${BACKEND_URL}/get-translation`
+  const url = `${BACKEND_URL}/translate`
   const options = {
     method: "POST",
     headers: {
