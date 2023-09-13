@@ -1,5 +1,8 @@
 import { SECRET_APP_KEY, BACKEND_URL } from '../env';
 
+// Should be done on server, quick fix for development
+const RATE_LIMITER = true
+
 export const LANGUAGE = {
   ENGLISH: "en",
   ARABIC: "ar",
@@ -23,7 +26,17 @@ export function getLanguage({text}) {
 }
 
 // Translates the text into the target language
+let rateLimiterFlag = false
 export async function translate({text, target}) {
+  if (RATE_LIMITER) {
+    if (rateLimiterFlag) {
+      return "Translation rate limited"
+    } else {
+      rateLimiterFlag = true
+      setTimeout(() => rateLimiterFlag = false, 1000)
+    }
+  }
+
   const url = `${BACKEND_URL}/get-translation`
   const options = {
     method: "POST",
@@ -37,7 +50,8 @@ export async function translate({text, target}) {
     })
   }
 
-  const resData = await (await fetch(url, options)).json()
-  console.log(resData)
-  return resData
+  const {translation} = await (await fetch(url, options)).json()
+  console.log("Translation Fetched")
+  console.log(translation)
+  return translation
 }
