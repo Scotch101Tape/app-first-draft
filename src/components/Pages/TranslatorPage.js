@@ -110,7 +110,7 @@ export default function TranslatorPage({pageChangeStrategy, pageId}) {
   */
 
   async function onPressTranslate ({text, target}) {
-    const {translation} = await translate({target, text})
+    const translation = await translate({target, text})
     setTranslation(translation)
   }
 
