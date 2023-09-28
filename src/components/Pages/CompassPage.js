@@ -104,7 +104,7 @@ export default function CompassPage({pageChangeStrategy, pageId, location}) {
   }
 
   return <Container>
-    <Image source={require("../../../assets/backgrounds/Compass.png")} style={{position: "absolute", height: "100%", width: "100%", left: 0, right: 0, resizeMode: "cover"}}/>
+    <Image source={require("../../../assets/page-specific/compass/Background.png")} style={{position: "absolute", height: "100%", width: "100%", left: 0, right: 0, resizeMode: "cover"}}/>
     <MyStatusBar backgroundColor={"black"}/>
     <Image style={compassStyles.north} source={require("../../../assets/page-specific/compass/NorthCompassPointer.png")}/>
     <Image style={compassStyles.mecca} source={require("../../../assets/page-specific/compass/MeccaCompassPointer.png")}/>
