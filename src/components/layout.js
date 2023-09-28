@@ -12,6 +12,6 @@ export function Block({color}) {
   return <View style={{backgroundColor: color}}></View>
 }
 
-export function Container({children}) {
-  return <View style={{flex: 1}}>{children}</View>
+export function Container({children, style}) {
+  return <View style={{...style, flex: 1}}>{children}</View>
 }
