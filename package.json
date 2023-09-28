@@ -19,7 +19,7 @@
     "moment-timezone": "^0.5.43",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.72.4",
+    "react-native": "0.72.5",
     "react-native-maps": "1.7.1",
     "react-native-web": "~0.19.6",
     "tz-lookup": "^6.1.25",
