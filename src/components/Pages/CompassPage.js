@@ -1,8 +1,6 @@
 import { StyleSheet, View, Text, Image, useWindowDimensions } from 'react-native';
 import { useState, useEffect } from 'react';
 import Navbar from '../Navbar'
-import Compass from '../Compass';
-import DemoBox from '../DemoBox';
 import Requires from '../Requires';
 import MyStatusBar from '../MyStatusBar';
 import { getNextPrayerTime, getPrayerTimes } from '../../util/prayerTimes';
