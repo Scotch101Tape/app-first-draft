@@ -1,4 +1,5 @@
 import { View, StyleSheet, Text, Button, Pressable, Image } from "react-native"
+import { memo } from 'react'
 import DemoBox from "./DemoBox"
 import { PAGE_IDS } from '../util/constants'
 import {R, C, Container} from  "../components/layout"
@@ -61,7 +62,7 @@ const pageData = {
   },
 }
 
-export default function Navbar({pageChangeStrategy, pageId}) {
+function Navbar({pageChangeStrategy, pageId}) {
   function IconButton({pageData}) {
     return <Pressable style={{}} onPress={() => pageData.pageId === pageId || pageChangeStrategy(pageData.pageId)}>
       <Image style={{}} source={pageData.pageId === pageId ? pageData.filledIcon : pageData.noFillIcon}/>
@@ -81,3 +82,5 @@ export default function Navbar({pageChangeStrategy, pageId}) {
     </R>
   </Container>
 }
+
+export default memo(Navbar)
