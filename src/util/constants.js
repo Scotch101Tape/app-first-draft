@@ -5,4 +5,5 @@ export const PAGE_IDS = {
   INFO: "info",
   MAP: "map",
   FAQ: "faq",
+  RESOURCES: "resources"
 }

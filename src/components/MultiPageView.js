@@ -9,5 +9,9 @@ const styles = StyleSheet.create({
 export default function MultiPageView({children, pageId}) {
   const pageDisplayed = children.find(page => page.props.pageId === pageId)
 
-  return pageDisplayed
+  if (pageDisplayed) {
+    return pageDisplayed
+  } else {
+    throw "No page to display"
+  }
 }

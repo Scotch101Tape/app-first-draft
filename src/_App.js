@@ -8,6 +8,7 @@ import FaqPage from "./components/Pages/FaqPage"
 import HomePage from "./components/Pages/HomePage"
 import InfoPage from "./components/Pages/InfoPage"
 import TranslatorPage from "./components/Pages/TranslatorPage"
+import ResourcesPage from './components/Pages/ResourcesPage'
 import MultiPageView from './components/MultiPageView'
 import { PAGE_IDS } from './util/constants'
 
@@ -85,6 +86,11 @@ export default function _App() {
         />
         <TranslatorPage
           pageId={PAGE_IDS.TRANSLATOR}
+          pageChangeStrategy={pageChangeStrategy}
+          location={location}
+        />
+        <ResourcesPage
+          pageId={PAGE_IDS.RESOURCES}
           pageChangeStrategy={pageChangeStrategy}
           location={location}
         />
