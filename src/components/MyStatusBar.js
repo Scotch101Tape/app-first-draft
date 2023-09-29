@@ -1,15 +1,18 @@
-import {StatusBar, View, StyleSheet, SafeAreaView} from "react-native"
+import { memo } from 'react'
+import {StatusBar, View, StyleSheet, SafeAreaView, Platform} from "react-native"
 
 const styles = StyleSheet.create({
   statusbar: {}
 })
 
-// From https://stackoverflow.com/a/39300715
+// Adapted from https://stackoverflow.com/a/39300715
 // LICENSE: CC BY-SA 4.0
-export default function MyStatusBar ({backgroundColor, ...props}) {
+function MyStatusBar ({backgroundColor, ...props}) {
   return <View style={[styles.statusBar, { backgroundColor }]}>
-    <SafeAreaView>
+    {Platform.OS === "ios" ? <SafeAreaView>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-    </SafeAreaView>
+    </SafeAreaView> : <View/>}
   </View>
 }
+
+export default memo(MyStatusBar)
