@@ -6,13 +6,13 @@ import MyStatusBar from '../MyStatusBar';
 import { getNextPrayerTime, getPrayerTimes } from '../../util/prayerTimes';
 import { getQibla } from '../../util/qibla';
 import { getRotateRadians, getReading, getRotate } from '../../util/compass';
-import {C, R, Container} from "../layout"
+import {C, R, Container, Background} from "../layout"
 import { Magnetometer } from 'expo-sensors';
 
 const MIN_UPDATE_INTERVAL = 200
 
 export default function CompassPage({pageChangeStrategy, pageId, location}) {
-  /* TODO: make this less choppy
+  /* TODO: make this less choppy ( and error resistant)
   I think animations seem pretty promising:
   https://reactnative.dev/docs/animations
   maybe continuously changing the "to" value
@@ -87,10 +87,10 @@ export default function CompassPage({pageChangeStrategy, pageId, location}) {
   function CompassText({pointsTo, text}) {
     const style = {
       position: "absolute",
-      left: compassCenter.x + (northSize * 0.36 + 10) * Math.cos(getRotateRadians({pointsTo, reading})) - 25,
-      top: compassCenter.y + (northSize * 0.36 + 10) * Math.sin(getRotateRadians({pointsTo, reading})) - 25,
-      width: 50,
-      height: 50,
+      left: compassCenter.x + (northSize * 0.36 + 10) * Math.cos(getRotateRadians({pointsTo, reading})) - 50,
+      top: compassCenter.y + (northSize * 0.36 + 10) * Math.sin(getRotateRadians({pointsTo, reading})) - 50,
+      width: 100,
+      height: 100,
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
@@ -102,8 +102,7 @@ export default function CompassPage({pageChangeStrategy, pageId, location}) {
   }
 
   return <Container>
-    <Image source={require("../../../assets/page-specific/compass/Background.png")} style={{position: "absolute", height: "100%", width: "100%", left: 0, right: 0, resizeMode: "cover"}}/>
-    <MyStatusBar backgroundColor={"black"}/>
+    <Background source={require("../../../assets/page-specific/compass/Background.png")}/>
     <Image style={compassStyles.north} source={require("../../../assets/page-specific/compass/NorthCompassPointer.png")}/>
     <Image style={compassStyles.mecca} source={require("../../../assets/page-specific/compass/MeccaCompassPointer.png")}/>
     <CompassText text={"N"} pointsTo={0}/>
@@ -115,6 +114,7 @@ export default function CompassPage({pageChangeStrategy, pageId, location}) {
       <View style={{width: "80%", height: 3, backgroundColor: "black"}}></View>
       <Text style={{fontWeight: "bold", fontSize: 30, color: "black"}}>TEXT</Text>
     </View>
+    <MyStatusBar backgroundColor={"black"}/>
     <R>
       <View style={{height: 100, flex: 1, flexDirection: "column-reverse"}}>
         <View style={{height: 3, backgroundColor: "white"}}/>
