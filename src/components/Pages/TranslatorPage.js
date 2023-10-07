@@ -44,7 +44,7 @@ const stopRecording = async ({recording}) => {
 }
 */
 
-export default function TranslatorPage({pageChangeStrategy, pageId}) {
+export default function TranslatorPage({data, setData}) {
   const [translation, setTranslation] = useState("")
   const [text, setText] = useState("")
   /*const [isRecording, setIsRecording] = useState(false)
@@ -155,6 +155,6 @@ export default function TranslatorPage({pageChangeStrategy, pageId}) {
         <Text style={styles.translationText}>{translation}</Text>
       </DemoBox>
     </ScrollView>
-    <Navbar pageChangeStrategy={pageChangeStrategy} pageId={pageId}/>
+    <Navbar setPageId={pageId => setData({...data, pageId})} pageId={data.pageId}/>
   </View>
 }

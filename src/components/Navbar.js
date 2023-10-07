@@ -1,8 +1,7 @@
-import { View, StyleSheet, Text, Button, Pressable, Image } from "react-native"
+import { Pressable, Image } from "react-native"
 import { memo } from 'react'
-import DemoBox from "./DemoBox"
 import { PAGE_IDS } from '../util/constants'
-import {R, C, Container} from  "../components/layout"
+import {R, Container} from  "../components/layout"
 
 const filledIcons = {
   map: require("../../assets/icons/filled/Map.png"),
@@ -62,23 +61,23 @@ const pageData = {
   },
 }
 
-function Navbar({pageChangeStrategy, pageId}) {
-  function IconButton({pageData}) {
-    return <Pressable style={{}} onPress={() => pageData.pageId === pageId || pageChangeStrategy(pageData.pageId)}>
-      <Image style={{}} source={pageData.pageId === pageId ? pageData.filledIcon : pageData.noFillIcon}/>
-    </Pressable>
-  }
+function IconButton({pageId, setPageId, pageData}) {
+  return <Pressable style={{}} onPress={() => pageData.pageId === pageId || setPageId(pageData.pageId)}>
+    <Image style={{}} source={pageData.pageId === pageId ? pageData.filledIcon : pageData.noFillIcon}/>
+  </Pressable>
+}
 
+function Navbar({setPageId, pageId}) {
   // I choose to do boilerplate here rather than shorter code bc I think thats right with jsx
   return <Container style={{position: "absolute", bottom: 0, width: "100%", padding: 10, /*backgroundColor: "green"*/}}>
     <R style={{borderRadius: 10, backgroundColor: "white", justifyContent: "space-around", padding: 3, alignItems: "center"}}>
-      <IconButton pageData={pageData.translator}/>
-      <IconButton pageData={pageData.resources}/>
-      <IconButton pageData={pageData.info}/>
-      <IconButton pageData={pageData.home}/>
-      <IconButton pageData={pageData.faq}/>
-      <IconButton pageData={pageData.map}/>
-      <IconButton pageData={pageData.compass}/>
+      <IconButton pageId={pageId} setPageId={setPageId} pageData={pageData.translator}/>
+      <IconButton pageId={pageId} setPageId={setPageId} pageData={pageData.resources}/>
+      <IconButton pageId={pageId} setPageId={setPageId} pageData={pageData.info}/>
+      <IconButton pageId={pageId} setPageId={setPageId} pageData={pageData.home}/>
+      <IconButton pageId={pageId} setPageId={setPageId} pageData={pageData.faq}/>
+      <IconButton pageId={pageId} setPageId={setPageId} pageData={pageData.map}/>
+      <IconButton pageId={pageId} setPageId={setPageId} pageData={pageData.compass}/>
     </R>
   </Container>
 }

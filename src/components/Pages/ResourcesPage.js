@@ -1,6 +1,7 @@
 import { StyleSheet, View, Button } from 'react-native';
 import DemoBox from '../DemoBox';
 import { PAGE_IDS } from '../../util/constants';
+import Navbar from '../Navbar';
 
 const styles = StyleSheet.create({
   container: {
@@ -8,10 +9,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function ResourcesPage({pageChangeStrategy}) {
+export default function ResourcesPage({data, setData}) {
   return <View style={styles.container}>
-    <DemoBox>
-      <Button title="Back Button" onPress={() => pageChangeStrategy(PAGE_IDS.HOME)}/>
-    </DemoBox>
+    <Navbar pageId={data.pageId} setPageId={pageId => setData({...data, pageId})}/>
   </View>
 }

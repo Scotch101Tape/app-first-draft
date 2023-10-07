@@ -1,0 +1,5 @@
+- make home/navbar icons grow with screen size
+- invest in our own mapping servers (using google is a rip off)
+- mask overlay with info cards on info page
+- ANIMATIONS
+- bar on top in android with camera

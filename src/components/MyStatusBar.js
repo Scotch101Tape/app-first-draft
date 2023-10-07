@@ -1,3 +1,5 @@
+// TODO: move this into layout.js
+
 import { memo } from 'react'
 import {StatusBar, View, StyleSheet, SafeAreaView, Platform} from "react-native"
 

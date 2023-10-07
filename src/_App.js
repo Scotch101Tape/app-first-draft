@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native"
 import { useEffect, useState } from "react"
-import * as Location from "expo-location"
+import { getLocation } from './util/location'
 
 import MapPage from "./components/Pages/MapPage"
 import CompassPage from "./components/Pages/CompassPage"
@@ -28,71 +28,58 @@ const pages = [{
 }]
 
 export default function _App() {
-  const [location, setLocation] = useState(null)
-  const [pageId, setPageId] = useState(PAGE_IDS.HOME)
+  const [data, setData] = useState({
+    location: null,
+    pageId: PAGE_IDS.HOME,
+    places: {}
+  })
 
-  // From the expo-location examples
-  // https://docs.expo.dev/versions/latest/sdk/location/
-  // (License: MIT, https://github.com/expo/expo/blob/sdk-49/LICENSE)
   useEffect(() => {
-    (async () => {
-      const {status} = await Location.requestForegroundPermissionsAsync()
-      if (status !== "granted") {
-        return
-      }
-
-      const location = await Location.getLastKnownPositionAsync({
-        precise: false,
-      })
-      setLocation(location)
-    })()
+    // TODO: make sure the user lets me do this
+    getLocation().then(location => setData({...data, location}))
   }, [])
-
-  const pageChangeStrategy = (newPageId) => {
-    setPageId(newPageId)
-  }
 
   // Boilerplate..
   // At the moment I have decided to write it in this way because I have come
-  // to the conclution that when it comes to jsx, boilerplate is better than
+  // to the conclusion that when it comes to jsx, boilerplate is better than
   // weird map loop things
   return (
     <View style={styles.container}>
-      <MultiPageView pageId={pageId}>
+      <MultiPageView pageId={data.pageId}>
         <HomePage
           pageId={PAGE_IDS.HOME}
-          pageChangeStrategy={pageChangeStrategy}
-          location={location}
+          data={data}
+          setData={setData}
         />
         <CompassPage
           pageId={PAGE_IDS.COMPASS}
-          pageChangeStrategy={pageChangeStrategy}
-          location={location}
+          data={data}
+          setData={setData}
         />
         <FaqPage
           pageId={PAGE_IDS.FAQ}
-          pageChangeStrategy={pageChangeStrategy}
-          location={location}
+          data={data}
+          setData={setData}
         />
         <InfoPage
           pageId={PAGE_IDS.INFO}
-          pageChangeStrategy={pageChangeStrategy}
-          location={location}
+          data={data}
+          setData={setData}
         />
         <MapPage
           pageId={PAGE_IDS.MAP}
-          pageChangeStrategy={pageChangeStrategy}
-          location={location}
+          data={data}
+          setData={setData}
         />
         <TranslatorPage
           pageId={PAGE_IDS.TRANSLATOR}
-          pageChangeStrategy={pageChangeStrategy}
-          location={location}
+          data={data}
+          setData={setData}
         />
         <ResourcesPage
           pageId={PAGE_IDS.RESOURCES}
-          pageChangeStrategy={pageChangeStrategy}
-          location={location}
+          data={data}
+          setData={setData}
         />
       </MultiPageView>
     </View>

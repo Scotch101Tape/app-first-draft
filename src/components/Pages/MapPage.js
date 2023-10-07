@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function MapPage({pageChangeStrategy, pageId}) {
+export default function MapPage({data, setData}) {
   return <View style={styles.container}>
     <MapView style={styles.map} />
-    <Navbar pageChangeStrategy={pageChangeStrategy} pageId={pageId}/>
+    <Navbar setPageId={(pageId) => setData({...data, pageId})} pageId={data.pageId}/>
   </View>
 }

@@ -1,0 +1,31 @@
+- make all text have english/arabic
+- finish qibla compass
+  - make the center have degrees to mecca
+  - make the mecca pointer more prominent
+  - make compass smooth
+- finish map
+  - when you zoom in it shows you all the points of interest
+  - you can filter what places of interest
+  - cache data received (within session)
+  - when clicked
+    - drop down with info
+    - drop down can be removed
+- finish about us
+  - add in content
+- finish resources
+  - add in content
+- finish Info
+  - make clicking on item
+    - gives more details
+    - option to show on map (moves you to map with that one clicked)
+    - cache data received (within session)
+  - finish card component
+- make info card component
+  - minimized and expanded
+- finish translator
+  - add in recording on server
+  - add in content
+  - cache what is in their (in app session)
+X add in way to pass data around pages
+  X replacing pageChangeStrategy and pageId
+  X pass in setData, data props

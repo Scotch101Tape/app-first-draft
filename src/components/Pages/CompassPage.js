@@ -11,7 +11,7 @@ import { Magnetometer } from 'expo-sensors';
 
 const MIN_UPDATE_INTERVAL = 200
 
-export default function CompassPage({pageChangeStrategy, pageId, location}) {
+export default function CompassPage({data, setData}) {
   /* TODO: make this less choppy ( and error resistant)
   I think animations seem pretty promising:
   https://reactnative.dev/docs/animations
@@ -44,8 +44,8 @@ export default function CompassPage({pageChangeStrategy, pageId, location}) {
 
   let nextPrayerTime = null
   let qibla = null
-  if (location) {
-    const {latitude, longitude} = location.coords
+  if (data.location) {
+    const {latitude, longitude} = data.location.coords
     nextPrayerTime = getNextPrayerTime({latitude, longitude})
     qibla = getQibla({latitude, longitude})
   }
@@ -126,6 +126,6 @@ export default function CompassPage({pageChangeStrategy, pageId, location}) {
         <Text style={{fontWeight: "bold", fontSize: 30, marginTop: -3}}>{nextPrayerTime}</Text>
       </C>
     </R>
-    <Navbar pageChangeStrategy={pageChangeStrategy} pageId={pageId}/>
+    <Navbar setPageId={(pageId) => setData({...data, pageId})} pageId={data.pageId}/>
   </Container>
 }

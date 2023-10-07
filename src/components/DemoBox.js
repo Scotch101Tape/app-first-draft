@@ -1,3 +1,5 @@
+// TODO: this isn't useful anymore, figure out what to do with it
+
 import { View, StyleSheet, Text } from "react-native"
 
 const styles = StyleSheet.create({
