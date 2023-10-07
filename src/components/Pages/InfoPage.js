@@ -80,7 +80,7 @@ function MaxInfoCard({width, info, extraInfo, loading}) {
                     const label = info.item.name
                     return Platform.OS === "ios" ?
                     `maps://0,0?q="${label}"@${latlng}` :
-                    `geo:0,0,q=${latlng}(${label})`
+                    `geo:0,0?q=${latlng}(${label})`
                   })()}/>
                 </View> :
                 <View/>}
