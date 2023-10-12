@@ -194,7 +194,7 @@ function InfoCardList({results, windowWidth, data, setData}) {
 
 function FindButton({code, text, pressed, onPressFind}) {
   return <Pressable style={{marginRight: 10}} onPress={() => onPressFind({code})}>
-    <C style={[centerStyle, {padding: 5, borderRadius: 25 /* equal to this padding plus the inside's border radius*/, borderColor: code === pressed ? "white" : (0, 0, 0, 0), borderWidth: 1}]}>
+    <C style={[centerStyle, {padding: 5, borderRadius: 25 /* equal to this padding plus the inside's border radius*/, borderColor: code === pressed ? "white" : (0, 0, 0, 0), borderWidth: 3}]}>
       <C style={{justifyContent: "center", alignItems: "center", borderRadius: 20, backgroundColor: "white", padding: 10}}>
         <Text style={{fontWeight: "bold", fontSize: 20}}>{text}</Text>
       </C>
