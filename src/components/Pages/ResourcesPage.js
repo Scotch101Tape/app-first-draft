@@ -60,7 +60,7 @@ function DropDown({title, children}) {
     mode === MODES.MINI ? setMode(MODES.MAX) : setMode(MODES.MINI)
   }
 
-  return <C style={{backgroundColor: "white", margin: 10, borderRadius: 20, height: 100}}>
+  return <C style={{backgroundColor: "white", margin: 10, borderRadius: 20}}>
     <Pressable onPress={onPress} style={{flexDirection: "row", padding: 10, paddingVertical: 15, paddingBottom: mode === MODES.MINI ? undefined : 10, alignItems: "center", justifyContent: "space-between"}}>
       <Bold style={{fontSize: 18}}>
         {title}
