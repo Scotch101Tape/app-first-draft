@@ -21,3 +21,19 @@ export function Bold({style, children}) {
 }
 
 export const centerStyle = {alginItems: "center", justifyContent: "center"}
+
+export function Circle({style, color, radius}) {
+  return <View style={[style, {backgroundColor: color, borderRadius: radius, width: radius * 2, height: radius * 2}]}/>
+}
+
+export function Rect({style, color, width, height}) {
+  return <View style={[style, {backgroundColor: color, width, height}]}/>
+}
+
+export function Nothing() {
+  return <View/>
+}
+
+export function randomKey() {
+  return Math.random() * 1e10
+}
