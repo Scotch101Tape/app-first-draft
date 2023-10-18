@@ -11,11 +11,45 @@ import { Magnetometer } from 'expo-sensors';
 
 const MIN_UPDATE_INTERVAL = 200
 
+function nameDegree(degree) {
+  const ns = (degree) => degree <= 90 || degree >= 270 ? "n" : "s"
+  const ew = (degree) => degree <= 180 ? "e" : "w"
+
+  const mains = [
+    {
+      name: "n",
+      degree: 0
+    },
+    {
+      name: "e",
+      degree: 90
+    },
+    {
+      name: "s",
+      degree: 180
+    },
+    {
+      name: "w",
+      degree: 270
+    }
+  ]
+
+  for (const main of mains) {
+    if (Math.abs(degree - main.degree) < 25) {
+      return main.name
+    }
+  }
+
+  return (ns(degree) + ew(degree))
+}
+
 export default function CompassPage({data, setData}) {
   /* TODO: make this less choppy ( and error resistant)
-  I think animations seem pretty promising:
-  https://reactnative.dev/docs/animations
-  maybe continuously changing the "to" value
+
+  // Here is how to make this better
+  // integrate accelerometer
+  // animations
+  // redo the images 🤦
   */
 
   const [subscription, setSubscription] = useState(null)
@@ -24,7 +58,15 @@ export default function CompassPage({data, setData}) {
 
   const subscribe = () => {
     setSubscription(
-      Magnetometer.addListener((magnetometerData) => setReading(getReading(magnetometerData)))
+      Magnetometer.addListener((magnetometerData) => {
+        const newReading = getReading(magnetometerData)
+        const difference = Math.abs(newReading - reading)
+        if (difference > 20) {
+          setReading(newReading)
+        } else if (difference > 5) {
+          setReading((newReading + reading) / 2)
+        }
+      })
     )
   }
 
@@ -109,16 +151,17 @@ export default function CompassPage({data, setData}) {
     <CompassText text={"E"} pointsTo={90}/>
     <CompassText text={"S"} pointsTo={180}/>
     <CompassText text={"W"} pointsTo={270}/>
+    <CompassText text={"🕋"} pointsTo={qibla}/>
     <View style={compassStyles.centerInfo}>
-      <Text style={{fontWeight: "bold", fontSize: 30, color: "black"}}>DEMO</Text>
+      <Text style={{fontWeight: "bold", fontSize: 30, color: "black"}}>{nameDegree(qibla).toUpperCase()}</Text>
       <View style={{width: "80%", height: 3, backgroundColor: "black"}}></View>
-      <Text style={{fontWeight: "bold", fontSize: 30, color: "black"}}>TEXT</Text>
+      <Text style={{fontWeight: "bold", fontSize: 30, color: "black"}}>{Math.round(qibla * 10) / 10}°</Text>
     </View>
     <MyStatusBar backgroundColor={"black"}/>
     <R>
       <View style={{height: 100, flex: 1, flexDirection: "column-reverse"}}>
         <View style={{height: 3, backgroundColor: "white"}}/>
-        <Text style={{marginLeft: 5, fontSize: 30, color: "white", fontWeight: "bold"}}>Qibla Compass</Text>
+        <Text style={{marginLeft: 5, fontSize: 25, color: "white", fontWeight: "bold"}}>Qibla Compass بوصلة القبلة</Text>
       </View>
       <View style={{width: 40}}/>
       <C style={{padding: 10, marginTop: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, backgroundColor: "white", height: 90}}>
