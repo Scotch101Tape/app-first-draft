@@ -1,4 +1,4 @@
-import { View, Button, Text, Image, ScrollView, Pressable, FlatList, useWindowDimensions, ActivityIndicator, Platform } from 'react-native';
+import { View, Button, Text, Image, ScrollView, Pressable, FlatList, useWindowDimensions, ActivityIndicator, Platform, UIManager, LayoutAnimation } from 'react-native';
 import Navbar from '../Navbar'
 import DemoBox from '../DemoBox';
 import { useState, useRef, useEffect } from 'react';
@@ -7,6 +7,13 @@ import Requires from '../Requires';
 import { Container, Background , R, C, centerStyle, Bold} from '../layout';
 import MyStatusBar from '../MyStatusBar';
 import Link from "../Link"
+
+// Adapted from https://reactnative.dev/docs/layoutanimation.html
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 function Loading({color, size}) {
   return <C style={{justifyContent: "center", alignItems: "center"}}>
@@ -75,25 +82,26 @@ function MaxInfoCard({width, info, extraInfo, loading}) {
                 {address ?
                 <View>
                   <Bold style={{paddingTop: 10}}>Address عنوان</Bold>
-                  <Link text={address} url={(() => {
+                  <Link url={(() => {
                     const latlng = `${info.item.geometry.location.lat},${info.item.geometry.location.lng}`
                     const label = info.item.name
                     return Platform.OS === "ios" ?
                     `maps://0,0?q="${label}"@${latlng}` :
                     `geo:0,0?q=${latlng}(${label})`
-                  })()}/>
+                  })()}>{address}</Link>
                 </View> :
                 <View/>}
                 {website ?
                 <View>
                   <Bold style={{paddingTop: 10}}>Website عنوان موقع ويب</Bold>
-                  <Link text={website} url={website}/>
+                  {/* Better than regex ©️ */}
+                  <Link url={website}>{website.substring(0, website.length - (website[website.length - 1] === "/")).replaceAll("https://", "").replaceAll("http://", "").replaceAll("www.", "")}</Link>
                 </View> :
                 <View/>}
                 {phone ?
                 <View>
                   <Bold style={{paddingTop: 10}}>Phone رقم الهاتف</Bold>
-                  <Link text={phone} url={`tel:${phone.replaceAll(" ", "").replaceAll("-", "")}`}/>
+                  <Link url={`tel:${phone.replaceAll(" ", "").replaceAll("-", "")}`}>{phone}</Link>
                 </View> :
                 <View/>}
                 <View style={{paddingBottom: 10}}/>
@@ -182,11 +190,16 @@ function InfoCardList({results, windowWidth, data, setData}) {
             setExpandedInfo(null)
             setLoading(true)
             placeDetailsRoutine(info.item.place_id)
+            LayoutAnimation.configureNext({
+              duration: 700,
+              //create: {type: 'easeIn', property: 'opacity'},
+              update: {type: 'spring', springDamping: 1},
+              //delete: {type: 'spring', springDamping: 0, property: 'opacity'}
+            })
           }
           return <MiniInfoCard width={windowWidth - 20} height={70} info={info} onPress={onPress}/>
         }
       }}
-      keyExtractor={_ => Math.round(Math.random() * 1e10)}
       extraData={[loading]}
     />
   </View>
@@ -281,6 +294,12 @@ export default function InfoPage({setData, data}) {
 
   function onPressFind({code}) {
     findPlacesRoutine({code})
+    LayoutAnimation.configureNext({
+      duration: 1000,
+      create: {type: 'spring', springDamping: 0.5, property: 'opacity'},
+      update: {type: 'spring', springDamping: 1},
+      delete: {type: 'spring', springDamping: 0.5, property: 'opacity'}
+    })
   }
 
   return <Container>
