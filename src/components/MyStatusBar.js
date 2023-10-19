@@ -2,6 +2,7 @@
 
 import { memo } from 'react'
 import {StatusBar, View, StyleSheet, SafeAreaView, Platform} from "react-native"
+import { Rect } from './layout'
 
 const styles = StyleSheet.create({
   statusbar: {}
@@ -13,7 +14,7 @@ function MyStatusBar ({backgroundColor, ...props}) {
   return <View style={[styles.statusBar, { backgroundColor }]}>
     {Platform.OS === "ios" ? <SafeAreaView>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-    </SafeAreaView> : <View/>}
+    </SafeAreaView> : <Rect color={"white"} height={50}/>}
   </View>
 }
 

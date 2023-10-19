@@ -164,8 +164,8 @@ export default function CompassPage({data, setData}) {
         <Text style={{marginLeft: 5, fontSize: 25, color: "white", fontWeight: "bold"}}>Qibla Compass بوصلة القبلة</Text>
       </View>
       <View style={{width: 40}}/>
-      <C style={{padding: 10, marginTop: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, backgroundColor: "white", height: 90}}>
-        <Text style={{fontWeight: "bold", fontSize: 20}}>Next prayer time:</Text>
+      <C style={{paddingLeft: 10, marginTop: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, backgroundColor: "white", height: 90}}>
+        <Text style={{fontWeight: "bold", fontSize: 20}}>Next prayer time وقت الصلاة</Text>
         <Text style={{fontWeight: "bold", fontSize: 30, marginTop: -3}}>{nextPrayerTime}</Text>
       </C>
     </R>

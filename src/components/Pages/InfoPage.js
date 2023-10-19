@@ -7,6 +7,7 @@ import Requires from '../Requires';
 import { Container, Background , R, C, centerStyle, Bold} from '../layout';
 import MyStatusBar from '../MyStatusBar';
 import Link from "../Link"
+import { PAGE_IDS } from '../../util/constants';
 
 // Adapted from https://reactnative.dev/docs/layoutanimation.html
 if (Platform.OS === 'android') {
@@ -238,7 +239,7 @@ export default function InfoPage({setData, data}) {
       fetching.current = code
       setLoading(true)
       setRetry(false)
-      setResults(null) // TODO change this so I put results in store to be passed around app..
+      setResults(null)
       setPressed(code)
 
       new Promise((res, rej) => {
