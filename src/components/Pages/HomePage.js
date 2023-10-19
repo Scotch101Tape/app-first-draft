@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     position: "absolute",
     margin: 10,
+    borderRadius: 18,
   },
 })
 
