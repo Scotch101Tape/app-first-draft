@@ -1,20 +1,13 @@
-// TODO: move this into layout.js
-
 import { memo } from 'react'
 import {StatusBar, View, StyleSheet, SafeAreaView, Platform} from "react-native"
-import { Rect } from './layout'
+import { Nothing, Rect } from './layout'
 
-const styles = StyleSheet.create({
-  statusbar: {}
-})
-
-// Adapted from https://stackoverflow.com/a/39300715
-// LICENSE: CC BY-SA 4.0
-function MyStatusBar ({backgroundColor, ...props}) {
-  return <View style={[styles.statusBar, { backgroundColor }]}>
-    {Platform.OS === "ios" ? <SafeAreaView>
-      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-    </SafeAreaView> : <Rect color={"white"} height={50}/>}
+function MyStatusBar({backgroundColor}) {
+  return <View style={{backgroundColor}}>
+    <SafeAreaView>
+      <StatusBar translucent backgroundColor={backgroundColor} />
+    </SafeAreaView>
+    {Platform.OS === "android" ? <Rect height={StatusBar.currentHeight}/> : <Nothing/>}
   </View>
 }
 
