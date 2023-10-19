@@ -58,51 +58,57 @@ export default function FaqPage({data, setData}) {
 
     <View style={{position: "absolute", width: "35%", height: "35%", right: 0, top: "38%", overflow: "hidden"}}>
       <Background source={require("../../../assets/page-specific/faq/SideBubble.png")}/>
-      <C style={{alignItems: "flex-end", paddingVertical: 15, paddingRight: 5, justifyContent: "center"}}>
-        <Bold style={{color: "white"}}>
-          Website
-        </Bold>
-        <Link url={"https://www.hsaimtoaid.org/"}>
-          <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
-            hsaimtoaid.org
+      <C style={{alignItems: "flex-end", paddingVertical: "17%", paddingRight: 5, justifyContent: "center"}}>
+        <C style={{alignItems: "flex-end"}}>
+          <Bold style={{color: "white"}}>
+            Website
           </Bold>
-        </Link>
-        <Rect height={4}/>
-        <Bold style={{color: "white"}}>
-          Clothing Line
-        </Bold>
-        <Link url={"https://crescentwear.com/"}>
-          <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
-            crescentwear.com
+          <Link url={"https://www.hsaimtoaid.org/"}>
+            <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
+              hsaimtoaid.org
+            </Bold>
+          </Link>
+        </C>
+        <C style={{alignItems: "flex-end"}}>
+          <Bold style={{color: "white"}}>
+            Clothing Line
           </Bold>
-        </Link>
-        <Rect height={4}/>
-        <Bold style={{color: "white"}}>
-          Clothing Insta
-        </Bold>
-        <Link url={"https://www.instagram.com/crescent_wear/"}>
-          <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
-            crescent_wear
+          <Link url={"https://crescentwear.com/"}>
+            <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
+              crescentwear.com
+            </Bold>
+          </Link>
+        </C>
+        <C style={{alignItems: "flex-end"}}>
+          <Bold style={{color: "white"}}>
+            Clothing Insta
           </Bold>
-        </Link>
-        <Rect height={4}/>
-        <Bold style={{color: "white"}}>
-          Aim to Aid Insta
-        </Bold>
-        <Link url={"https://www.instagram.com/aimtoaid_/"}>
-          <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
-            aimtoaid_
+          <Link url={"https://www.instagram.com/crescent_wear/"}>
+            <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
+              crescent_wear
+            </Bold>
+          </Link>
+        </C>
+        <C style={{alignItems: "flex-end"}}>
+          <Bold style={{color: "white"}}>
+            Aim to Aid Insta
           </Bold>
-        </Link>
-        <Rect height={4}/>
-        <Bold style={{color: "white"}}>
-          MN Insta
-        </Bold>
-        <Link url={"https://www.instagram.com/aimtoaid.mn/"}>
-          <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
-            aimtoaid.mn
+          <Link url={"https://www.instagram.com/aimtoaid_/"}>
+            <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
+              aimtoaid_
+            </Bold>
+          </Link>
+        </C>
+        <C style={{alignItems: "flex-end"}}>
+          <Bold style={{color: "white"}}>
+            MN Insta
           </Bold>
-        </Link>
+          <Link url={"https://www.instagram.com/aimtoaid.mn/"}>
+            <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
+              aimtoaid.mn
+            </Bold>
+          </Link>
+        </C>
       </C>
     </View>
     <Navbar pageId={data.pageId} setPageId={(pageId) => setData({...data, pageId})}/>
