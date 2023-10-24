@@ -161,13 +161,13 @@
 
 
 import { Audio } from 'expo-av';
-import { Container, Bold, Rect, C, R, Nothing } from "../layout";
+import { Container, Bold, Rect, C, R, Nothing, Loading } from "../layout";
 import { View, TextInput, Text, Image, ScrollView, Pressable, Keyboard} from "react-native"
 import { useState, useEffect, useLayoutEffect, useRef, createRef } from 'react';
 import Navbar from '../Navbar';
 import DemoBox from '../DemoBox';
-import { translate, LANGUAGE } from '../../util/translate';
-import { speechToText } from '../../util/speechToText';
+import { translate, LANGUAGE, oppositeLanguage, getLanguage } from '../../util/translate';
+import { getSpeechTranslation, speechToText } from '../../util/speechToText';
 import MyStatusBar from '../MyStatusBar';
 
 // Adapted from https://docs.expo.dev/versions/latest/sdk/audio/
@@ -175,29 +175,27 @@ export default function TranslatorPage({data, setData}) {
   const [recording, setRecording] = useState();
   const [text, setText] = useState("")
   const [translation, setTranslation] = useState("")
+  const [textLoading, setTextLoading] = useState(false)
+  const [translationLoading, setTranslationLoading] = useState(false)
   const textBoxRef = useRef()
 
   async function startRecording() {
     try {
-      console.log('Requesting permissions..');
       await Audio.requestPermissionsAsync();
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
 
-      console.log('Starting recording..');
       const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
       setRecording(recording);
-      console.log('Recording started');
     } catch (err) {
-      console.error('Failed to start recording', err);
+      console.warn('Failed to start recording', err);
     }
   }
 
   async function stopRecording() {
-    console.log('Stopping recording..');
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
     await Audio.setAudioModeAsync(
@@ -206,7 +204,48 @@ export default function TranslatorPage({data, setData}) {
       }
     );
     const uri = recording.getURI();
-    console.log('Recording stopped and stored at', uri);
+
+    setTranslation("")
+    setTranslationLoading(true)
+    setText("")
+    setTextLoading(true)
+
+    getSpeechTranslation({recordingUri: uri})
+    .then(({text: newText, translation: newTranslation}) => {
+      setTranslation(newTranslation)
+      setTranslationLoading(false)
+      setText(newText)
+      setTextLoading(false)
+    })
+    .catch((error) => {
+      setTranslationLoading(false)
+      setTextLoading(false)
+      console.warn("Speech translation failed")
+    })
+  }
+
+  const translationButtonPress = () => {
+    textBoxRef.current?.blur()
+    setTranslation("")
+    setTranslationLoading(true)
+    translate({text, target: oppositeLanguage(getLanguage(text))})
+    .then((newTranslation) => {
+      setTranslationLoading(false)
+      setTranslation(newTranslation)
+    })
+    .catch(() => {
+      setTranslationLoading(false)
+      console.warn("Translation failed")
+    })
+  }
+
+  const speechButtonPress = () => {
+    textBoxRef.current?.blur()
+    if (recording) {
+      stopRecording()
+    } else {
+      startRecording()
+    }
   }
 
   return <Container style={{backgroundColor: "#DCDADB"}}>
@@ -219,22 +258,27 @@ export default function TranslatorPage({data, setData}) {
       <C>
         <C style={{backgroundColor: "white", marginHorizontal: 10, borderRadius: 10, padding: 5, paddingBottom: 39}}>
           {
-            !text
+            text
             ?
+              <Nothing/>
+            :
               <View style={{position: "absolute", width: "100%", height: "100%", left: 5, top: 2.5}}>
                 <C style={{justifyContent: "center", alignItems: "center"}}>
-                  <Bold style={{fontSize: 20, color: "grey", paddingTop: 30}}>
-                    Text معلومات
-                  </Bold>
+                  {textLoading
+                  ?
+                    <Loading/>
+                  :
+                    <Bold style={{fontSize: 20, color: "grey", paddingTop: 30}}>
+                      Text معلومات
+                    </Bold>
+                  }
                 </C>
               </View>
-            :
-              <Nothing/>
           }
           <Pressable onPress={() => textBoxRef.current ? textBoxRef.current.focus(): {}} style={{width: "100%", height: "100%"}}>
             <TextInput
               ref={textBoxRef}
-              editable
+              editable={!textLoading}
               multiline
               maxLength={500}
               onChangeText={setText}
@@ -245,8 +289,12 @@ export default function TranslatorPage({data, setData}) {
         </C>
         <View style={{height: 50, zIndex: 1}}>
           <R style={{justifyContent: "space-evenly", alignItems: "center"}}>
-            <Image style={{width: 128, height: 128}} source={recording ? require("../../../assets/page-specific/translator/RecordingButton.png") : require("../../../assets/page-specific/translator/SpeechButton.png")}/>
-            <Image style={{width: 128, height: 128}} source={require("../../../assets/page-specific/translator/TranslateButton.png")}/>
+            <Pressable onPress={speechButtonPress}>
+              <Image style={{width: 128, height: 128}} source={recording ? require("../../../assets/page-specific/translator/RecordingButton.png") : require("../../../assets/page-specific/translator/SpeechButton.png")}/>
+            </Pressable>
+            <Pressable onPress={translationButtonPress}>
+              <Image style={{width: 128, height: 128}} source={require("../../../assets/page-specific/translator/TranslateButton.png")}/>
+            </Pressable>
           </R>
         </View>
         <C style={{backgroundColor: "white", marginHorizontal: 10, borderRadius: 10}}>
@@ -261,9 +309,14 @@ export default function TranslatorPage({data, setData}) {
             </ScrollView>
           :
             <C style={{justifyContent: "center", alignItems: "center"}}>
-              <Bold style={{fontSize: 20, color: "grey", paddingBottom: 39}}>
-                Translation ترجمة
-              </Bold>
+              {translationLoading
+              ?
+                <Loading/>
+              :
+                <Bold style={{fontSize: 20, color: "grey", paddingBottom: 39}}>
+                  Translation ترجمة
+                </Bold>
+              }
             </C>
           }
         </C>

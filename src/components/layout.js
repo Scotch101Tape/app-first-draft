@@ -1,4 +1,4 @@
-import { View, Image, Text, Pressable } from 'react-native'
+import { View, Image, Text, ActivityIndicator } from 'react-native'
 
 export function C({grow, style, children}) {
   return <View style={[{flex: 1, flexDirection: "column", flexGrow: grow || 1}, style]}>{children}</View>
@@ -36,4 +36,10 @@ export function Nothing() {
 
 export function randomKey() {
   return Math.random() * 1e10
+}
+
+export function Loading({color, size}) {
+  return <C style={{justifyContent: "center", alignItems: "center"}}>
+    <ActivityIndicator color={color} size={size ? size : "large"}/>
+  </C>
 }

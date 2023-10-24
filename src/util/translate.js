@@ -8,7 +8,7 @@ export const LANGUAGE = {
   ARABIC: "ar",
 }
 
-export function getLanguage({text}) {
+export function getLanguage(text) {
   // This is a *very* naive language checker
   // As is, if the text has arabic then it is arabic
   // otherwise it is english
@@ -23,6 +23,10 @@ export function getLanguage({text}) {
   } else {
     return LANGUAGE.ENGLISH
   }
+}
+
+export function oppositeLanguage(language) {
+  return language === LANGUAGE.ARABIC ? LANGUAGE.ENGLISH : LANGUAGE.ARABIC
 }
 
 // Translates the text into the target language
