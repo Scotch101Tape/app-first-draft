@@ -8,6 +8,8 @@ import { Container, Background , R, C, centerStyle, Bold} from '../layout';
 import MyStatusBar from '../MyStatusBar';
 import Link from "../Link"
 import { PAGE_IDS } from '../../util/constants';
+import PlaceCodePicker from "../PlaceCodePicker"
+import FetchContent from '../FetchContent';
 
 // Adapted from https://reactnative.dev/docs/layoutanimation.html
 if (Platform.OS === 'android') {
@@ -53,7 +55,7 @@ function MiniInfoCard({width, height, info, onPress}) {
   </Pressable>
 }
 
-function MaxInfoCard({width, info, extraInfo, loading}) {
+function MaxInfoCard({width, info, data, setData}) {
   // Trim the name to 30 chars and add a ... if needed
   const name = info.item.name
   // Trim United States/the country off of the address
@@ -70,48 +72,69 @@ function MaxInfoCard({width, info, extraInfo, loading}) {
         <Text style={{fontWeight: "bold", fontSize: 20}}>{name}</Text>
       </R>
       <C>
-        {
-          (() => {
-            if (loading) {
-              return <Loading color={"black"} size={"small"}/>
-            } else if (extraInfo) {
-              const website = extraInfo.website
-              const address = info.item.formatted_address
-              const phone = extraInfo.international_phone_number
+        <FetchContent
+          args={{placeId: info.item.place_id}}
+          fetcher={({placeId}) => {
+            return placeDetails({placeId})
+          }}
+          getCache={({placeId}) => {
+            return data.places?.details?.[placeId]
+          }}
+          updateCache={({args: {placeId}, result}) => {
+            setData({
+              ...data,
+              places: {
+                ...data.places,
+                // index by nearby
+                details: {
+                  ...data.places?.details,
+                  // index by placeId
+                  [placeId]: result
+                }
+              }
+            })
+          }}
+          loading={() => {
+            return <Loading color={"black"} size={"small"}/>
+          }}
+          fail={() => {
+            return <Loading color={"black"} size={"small"}/>
+          }}
+          success={result => {
+            const website = result.website
+            const address = info.item.formatted_address
+            const phone = result.international_phone_number
 
-              return <C>
-                {address ?
-                <View>
-                  <Bold style={{paddingTop: 10}}>Address عنوان</Bold>
-                  <Link url={(() => {
-                    const latlng = `${info.item.geometry.location.lat},${info.item.geometry.location.lng}`
-                    const label = info.item.name
-                    return Platform.OS === "ios" ?
-                    `maps://0,0?q="${label}"@${latlng}` :
-                    `geo:0,0?q=${latlng}(${label})`
-                  })()}>{address}</Link>
-                </View> :
-                <View/>}
-                {website ?
-                <View>
-                  <Bold style={{paddingTop: 10}}>Website عنوان موقع ويب</Bold>
-                  {/* Better than regex ©️ */}
-                  <Link url={website}>{website.substring(0, website.length - (website[website.length - 1] === "/")).replaceAll("https://", "").replaceAll("http://", "").replaceAll("www.", "")}</Link>
-                </View> :
-                <View/>}
-                {phone ?
-                <View>
-                  <Bold style={{paddingTop: 10}}>Phone رقم الهاتف</Bold>
-                  <Link url={`tel:${phone.replaceAll(" ", "").replaceAll("-", "")}`}>{phone}</Link>
-                </View> :
-                <View/>}
-                <View style={{paddingBottom: 10}}/>
-              </C>
-            } else {
-              return <Loading color={"black"} size={"small"}/>
-            }
-          })()
-        }
+            return <C>
+              {address ?
+              <View>
+                <Bold style={{paddingTop: 10}}>Address عنوان</Bold>
+                <Link url={(() => {
+                  const latlng = `${info.item.geometry.location.lat},${info.item.geometry.location.lng}`
+                  const label = info.item.name
+                  return Platform.OS === "ios" ?
+                  `maps://0,0?q="${label}"@${latlng}` :
+                  `geo:0,0?q=${latlng}(${label})`
+                })()}>{address}</Link>
+              </View> :
+              <View/>}
+              {website ?
+              <View>
+                <Bold style={{paddingTop: 10}}>Website عنوان موقع ويب</Bold>
+                {/* Better than regex ©️ */}
+                <Link url={website}>{website.substring(0, website.length - (website[website.length - 1] === "/")).replaceAll("https://", "").replaceAll("http://", "").replaceAll("www.", "")}</Link>
+              </View> :
+              <View/>}
+              {phone ?
+              <View>
+                <Bold style={{paddingTop: 10}}>Phone رقم الهاتف</Bold>
+                <Link url={`tel:${phone.replaceAll(" ", "").replaceAll("-", "")}`}>{phone}</Link>
+              </View> :
+              <View/>}
+              <View style={{paddingBottom: 10}}/>
+            </C>
+          }}
+        />
       </C>
       <R>
         <R style={{alignItems: "center"}}>
@@ -125,141 +148,63 @@ function MaxInfoCard({width, info, extraInfo, loading}) {
   </View>
 }
 
-function InfoCardList({results, windowWidth, data, setData}) {
+function InfoCardList({result, windowWidth, data, setData}) {
   const [expanded, setExpanded] = useState(null)
-  const [expandedInfo, setExpandedInfo] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const fetching = useRef(null)
-
-  const placeDetailsRoutine = (placeId) => {
-    if (fetching.current !== placeId) {
-      fetching.current = placeId
-      new Promise((res, rej) => {
-        const cache = data.places?.details?.[placeId]
-        if (cache) {
-          // data from cache
-          res([true, cache])
-        } else {
-          // fetch data
-          res(
-            Promise.all([
-              false,
-              placeDetails({placeId})
-            ])
-          )
-        }
-      })
-      .then(([cacheUsed, result]) => {
-        if (!cacheUsed && result) {
-          setData({
-            ...data,
-            places: {
-              ...data.places,
-              // index by nearby
-              details: {
-                ...data.places?.details,
-                // index by placeId
-                [placeId]: result
-              }
-            }
-          })
-        }
-
-        if (fetching.current === placeId) {
-          setExpandedInfo(result)
-          setLoading(false)
-        }
-      })
-      .catch(error => {
-        console.warn(error)
-        if (fetching.current === placeId) {
-          setLoading(true)
-        }
-      })
-    }
-  }
 
   return <View>
     <FlatList
-      data={results}
+      data={result}
       renderItem={info => {
         if (info.item.place_id === expanded) {
-          return <MaxInfoCard width={windowWidth - 20} info={info} extraInfo={expandedInfo} loading={loading}/>
+          return <MaxInfoCard width={windowWidth - 20} info={info} data={data} setData={setData}/>
         } else {
           const onPress = () => {
             setExpanded(info.item.place_id)
-            setExpandedInfo(null)
-            setLoading(true)
-            placeDetailsRoutine(info.item.place_id)
             LayoutAnimation.configureNext({
               duration: 700,
-              //create: {type: 'easeIn', property: 'opacity'},
               update: {type: 'spring', springDamping: 1},
-              //delete: {type: 'spring', springDamping: 0, property: 'opacity'}
             })
           }
           return <MiniInfoCard width={windowWidth - 20} height={70} info={info} onPress={onPress}/>
         }
       }}
-      extraData={[loading]}
+      extraData={[expanded]}
     />
   </View>
 }
 
-function FindButton({code, text, pressed, onPressFind}) {
-  return <Pressable style={{marginRight: 10}} onPress={() => onPressFind({code})}>
-    <C style={[centerStyle, {padding: 5, borderRadius: 25 /* equal to this padding plus the inside's border radius*/, borderColor: code === pressed ? "white" : (0, 0, 0, 0), borderWidth: 3}]}>
-      <C style={{justifyContent: "center", alignItems: "center", borderRadius: 20, backgroundColor: "white", padding: 10}}>
-        <Text style={{fontWeight: "bold", fontSize: 20}}>{text}</Text>
-      </C>
-    </C>
-  </Pressable>
-}
-
 export default function InfoPage({setData, data}) {
-  /*
-  request && !loading: undisplay results, undisplay retry, display loading, display which one is being loaded
-    -> good results: display results, undisplay loading
-    -> bad results: display retry, undisplay loading
-
-  request && loading
-
-  On start: send request
-  */
   const {width: windowWidth} = useWindowDimensions()
 
-  const [loading, setLoading] = useState(true)
-  const [pressed, setPressed] = useState(null)
-  const [retry, setRetry] = useState(null)
-  const [results, setResults] = useState(null)
-  const fetching = useRef(null)
+  const [code, setCode] = useState(CODES.GROCERY)
 
-  function findPlacesRoutine({code}) {
-    if ((pressed !== code && fetching.current !== code) || retry) {
-      fetching.current = code
-      setLoading(true)
-      setRetry(false)
-      setResults(null)
-      setPressed(code)
+  const onPressPlaceCodePicker = (code) => {
+    setCode(code)
+    LayoutAnimation.configureNext({
+      duration: 1000,
+      create: {type: 'spring', springDamping: 0.5, property: 'opacity'},
+      update: {type: 'spring', springDamping: 1},
+      delete: {type: 'spring', springDamping: 0.5, property: 'opacity'}
+    })
+  }
 
-      new Promise((res, rej) => {
-        const cache = data.places?.nearby?.[code]
-        if (cache) {
-          // data from cache
-          res([true, cache])
-        } else {
-          // fetch data
-          // TODO: what if data doesn't have location..
-          res(
-            Promise.all([
-              false,
-              findPlaces({code, location: [data.location.coords.latitude, data.location.coords.longitude]})
-            ])
-          )
-        }
-      })
-      .then(([cacheUsed, result]) => {
-        if (!cacheUsed && result) {
+  return <Container>
+    <Background source={require("../../../assets/page-specific/info/Background.png")}/>
+    <MyStatusBar backgroundColor={"black"}/>
+    <View style={{width: "100%", height: 90}}>
+      <PlaceCodePicker selected={code} onPress={onPressPlaceCodePicker}/>
+    </View>
+    <View style={{height: 60, width: "100%"}}>
+      <Text style={{fontWeight: "bold", color: "white", fontSize: 30, marginLeft: 10}}>Near you بالقرب منك</Text>
+      <View style={{height: 2, width: 300, backgroundColor: "white", marginTop: 3}}></View>
+    </View>
+    <C grow={80}>
+      <FetchContent
+        args={{code}}
+        getCache={({code}) => {
+          return data.places?.nearby?.[code]
+        }}
+        updateCache={({args: {code}, result}) => {
           setData({
             ...data,
             places: {
@@ -272,68 +217,18 @@ export default function InfoPage({setData, data}) {
               }
             }
           })
-        }
-
-        if (fetching.current === code) {
-          setResults(result)
-          setLoading(false)
-        }
-      })
-      .catch(error => {
-        console.warn(error)
-        if (fetching.current === code) {
-          setRetry(true)
-          setLoading(false)
-        }
-      })
-    }
-  }
-
-  useEffect(() => {
-    findPlacesRoutine({code: CODES.GROCERY})
-  }, [])
-
-  function onPressFind({code}) {
-    findPlacesRoutine({code})
-    LayoutAnimation.configureNext({
-      duration: 1000,
-      create: {type: 'spring', springDamping: 0.5, property: 'opacity'},
-      update: {type: 'spring', springDamping: 1},
-      delete: {type: 'spring', springDamping: 0.5, property: 'opacity'}
-    })
-  }
-
-  return <Container>
-    <Background source={require("../../../assets/page-specific/info/Background.png")}/>
-    <MyStatusBar backgroundColor={"black"}/>
-    <View style={{flexGrow: 0, width: "100%", height: 80 }}>
-      <ScrollView style={{padding: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
-        <R style={{justifyContent: "space-around", alignItems: "center"}}>
-          <FindButton text={"Halal Grocery بقالة حلال"} code={CODES.GROCERY} pressed={pressed} onPressFind={onPressFind}/>
-          <FindButton text={"Clothing ملابس"} code={CODES.CLOTHING} pressed={pressed} onPressFind={onPressFind}/>
-          <FindButton text={"Mosques مسجد"} code={CODES.MOSQUE} pressed={pressed} onPressFind={onPressFind}/>
-        </R>
-      </ScrollView>
-    </View>
-    <View style={{height: 60, width: "100%"}}>
-      <Text style={{fontWeight: "bold", color: "white", fontSize: 30, marginLeft: 10}}>Near you بالقرب منك</Text>
-      <View style={{height: 2, width: 300, backgroundColor: "white", marginTop: 3}}></View>
-    </View>
-    <C grow={80}>
-      {
-        (() => {
-          if (loading) {
-            return <Loading color={"white"}/>
-          } else if (retry) {
-            // If its a retry, it might as well be over...
-            return <Loading color={"white"}/>
-          } else if (results !== null) {
-            return <InfoCardList results={results} windowWidth={windowWidth} data={data} setData={setData}/>
-          } else {
-            throw "WHAT"
-          }
-        })()
-      }
+        }}
+        fetcher={({code}) => findPlaces({code, location: [data.location.coords.latitude, data.location.coords.longitude]})}
+        loading={() => {
+          return <Loading color={"white"}/>
+        }}
+        fail={() => {
+          return <Loading color={"white"}/>
+        }}
+        success={result => {
+          return <InfoCardList result={result} windowWidth={windowWidth} data={data} setData={setData}/>
+        }}
+      />
     </C>
     <View style={{height: 65, width: "100%"}}/>
     <Navbar setPageId={(pageId) => setData({...data, pageId})} pageId={data.pageId}/>
