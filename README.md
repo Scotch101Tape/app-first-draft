@@ -13,7 +13,7 @@ To setup is simple thanks to the wonderful tools expo go.
 3. Run `npm i expo`
    - make sure npm is installed (https://nodejs.org/en/download)
 5. Copy the contents of `./src/env-example.js` into a new file `./src/env.js` (Contact me for the actual keys although it will still run regardless, just missing some features)
-6. Make a `people` directory in `./assests/page-specific/faq`
+6. Make a `people` directory in `./assets/page-specific/faq` and add the correct images. The images should be the same dimensions as `PeopleReplacement.png`
 7. Run `npx expo start`
 8. Follow the instructions that appear in the terminal (You may need to have a device and download the expo go app)
 
