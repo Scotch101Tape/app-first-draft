@@ -92,7 +92,7 @@ export default function ResourcesPage({data, setData}) {
   return <Container style={{backgroundColor: "#DCDADB"}}>
     <MyStatusBar backgroundColor="black"/>
     <Rect height={15}/>
-    <Bold style={{fontSize: 30, paddingLeft: 10}}>Resources موارد</Bold>
+    <Bold style={{fontSize: 30, paddingLeft: 10}}>Resources مصادر</Bold>
     <Rect width={250} height={3} color={"black"}/>
     <Rect height={10}/>
 
