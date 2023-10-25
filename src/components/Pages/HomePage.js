@@ -80,14 +80,24 @@ export default function Home({data, setData}) {
               <Image style={styles.imageInButton} source={require("../../../assets/page-specific/home/InfoButton.png")}/>
               <R style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                 <Image style={{margin: 5}} source={require("../../../assets/icons/white/Info.png")}/>
-                <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 5}}>Info Page</Text>
+                <View style={{margin: 5}}>
+                  <C style={{justifyContent: "center"}}>
+                    <Text style={{color: "white", fontWeight: "bold", fontSize: 15}}>Information</Text>
+                    <Text style={{color: "white", fontWeight: "bold", fontSize: 15}}>معلومات</Text>
+                  </C>
+                </View>
               </R>
             </HomePageButton>
             <HomePageButton pageId={PAGE_IDS.TRANSLATOR}>
               <Image style={styles.imageInButton} source={require("../../../assets/page-specific/home/TranslatorButton.png")}/>
               <R style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                 <Image style={{margin: 5}} source={require("../../../assets/icons/white/Translator.png")}/>
-                <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 5}}>Translator</Text>
+                <View style={{margin: 5}}>
+                  <C style={{justifyContent: "center"}}>
+                    <Text style={{color: "white", fontWeight: "bold", fontSize: 15}}>Translator</Text>
+                    <Text style={{color: "white", fontWeight: "bold", fontSize: 15}}>تطبيق مترجم</Text>
+                  </C>
+                </View>
               </R>
             </HomePageButton>
           </C>
@@ -96,6 +106,7 @@ export default function Home({data, setData}) {
             <C style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
               <Text style={{color: "white", fontWeight: "bold", fontSize: 25, margin: 5}}>Map</Text>
               <Image style={{margin: 5}} source={require("../../../assets/icons/white/Map.png")}/>
+              <Text style={{color: "white", fontWeight: "bold", fontSize: 25, margin: 5}}>خريطة</Text>
             </C>
           </HomePageButton>
         </R>
@@ -103,21 +114,24 @@ export default function Home({data, setData}) {
           <HomePageButton pageId={PAGE_IDS.FAQ}>
             <Image style={styles.imageInButton} source={require("../../../assets/page-specific/home/BottomButton.png")}/>
             <C style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
-              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 5}}>About Us</Text>
+              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 0}}>About Us</Text>
+              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, marginBottom: 5}}>صفحة عنا</Text>
               <Image style={{margin: 5}} source={require("../../../assets/icons/white/FAQ.png")}/>
             </C>
           </HomePageButton>
           <HomePageButton pageId={PAGE_IDS.RESOURCES}>
             <Image style={styles.imageInButton} source={require("../../../assets/page-specific/home/BottomButton.png")}/>
             <C style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
-              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 5}}>Resources</Text>
+              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 0}}>Resources</Text>
+              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, marginBottom: 5}}>مصادر</Text>
               <Image style={{margin: 5}} source={require("../../../assets/icons/white/Resources.png")}/>
             </C>
           </HomePageButton>
           <HomePageButton pageId={PAGE_IDS.COMPASS}>
             <Image style={styles.imageInButton} source={require("../../../assets/page-specific/home/BottomButton.png")}/>
             <C style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
-              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 5}}>Compass</Text>
+              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, margin: 0}}>Compass</Text>
+              <Text style={{color: "white", fontWeight: "bold", fontSize: 15, marginBottom: 5}}>بوصلة القبلة</Text>
               <Image style={{margin: 5}} source={require("../../../assets/icons/white/Compass.png")}/>
             </C>
           </HomePageButton>
