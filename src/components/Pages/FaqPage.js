@@ -37,7 +37,7 @@ export default function FaqPage({data, setData}) {
     <Rect height={3}/>
     <Rect color={"white"} width={310} height={3}/>
     <Text style={{fontSize: 20, color: "white", paddingVertical: 10, paddingHorizontal: 20, height: "30%", overflow: "hidden"}}>
-      {PEOPLE_NAMES[0]}, {PEOPLE_NAMES[1]}, {PEOPLE_NAMES[2]}, and {PEOPLE_NAMES[3]} all met in middle school in Minnesota. Now seniors, we are building this app with the non-profit Aim To Aid. It is a great match for our aspirations, combing Aid to Aid's goals and our interest in Computer Science.
+      {PEOPLE_NAMES[0]}, {PEOPLE_NAMES[1]}, {PEOPLE_NAMES[2]}, and {PEOPLE_NAMES[3]} all met in middle school in Minnesota. Now seniors, we are building this app with the non-profit AIM to AID. It is a great match for our aspirations, combing Aid to Aid's goals and our passion for computer science.
     </Text>
     <Rect height={"10%"}/>
     <Bold style={{fontSize: 30, marginLeft: 10}}>Creators مبتدع</Bold>
@@ -56,7 +56,7 @@ export default function FaqPage({data, setData}) {
     </R>
     <Rect height={60}/>
 
-    <View style={{position: "absolute", width: "35%", height: "35%", right: 0, top: "38%", overflow: "hidden"}}>
+    <View style={{position: "absolute", width: "42%", height: "35%", right: 0, top: "38%", overflow: "hidden"}}>
       <Background source={require("../../../assets/page-specific/faq/SideBubble.png")}/>
       <C style={{alignItems: "flex-end", paddingVertical: "17%", paddingRight: 5, justifyContent: "center"}}>
         <C style={{alignItems: "flex-end"}}>
@@ -81,17 +81,7 @@ export default function FaqPage({data, setData}) {
         </C>
         <C style={{alignItems: "flex-end"}}>
           <Bold style={{color: "white"}}>
-            Clothing Insta
-          </Bold>
-          <Link url={"https://www.instagram.com/crescent_wear/"}>
-            <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
-              crescent_wear
-            </Bold>
-          </Link>
-        </C>
-        <C style={{alignItems: "flex-end"}}>
-          <Bold style={{color: "white"}}>
-            Aim to Aid Insta
+            AIM to AID Instagram
           </Bold>
           <Link url={"https://www.instagram.com/aimtoaid_/"}>
             <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
@@ -101,7 +91,17 @@ export default function FaqPage({data, setData}) {
         </C>
         <C style={{alignItems: "flex-end"}}>
           <Bold style={{color: "white"}}>
-            MN Insta
+            Clothing Instagram
+          </Bold>
+          <Link url={"https://www.instagram.com/crescent_wear/"}>
+            <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
+              crescent_wear
+            </Bold>
+          </Link>
+        </C>
+        <C style={{alignItems: "flex-end"}}>
+          <Bold style={{color: "white"}}>
+            MN Instagram
           </Bold>
           <Link url={"https://www.instagram.com/aimtoaid.mn/"}>
             <Bold style={{color: "white", fontSize: 13, textDecorationLine: "underline"}}>
