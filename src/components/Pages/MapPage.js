@@ -123,9 +123,9 @@ function InfoCard({info, onClose, data, setData}) {
 }
 
 export default function MapPage({data, setData}) {
+  // TODO, load more
   const [picked, setPicked] = useState(null)
   const [code, setCode] = useState(CODES.GROCERY)
-  // const pickedInfo = useRef(null)
 
   const onPressMarker = (placeId) => {
     setPicked(placeId)
@@ -173,8 +173,7 @@ export default function MapPage({data, setData}) {
         }}
         fetcher={({code}) => findPlaces({code, location: [data.location.coords.latitude, data.location.coords.longitude]})}
         loading={() => {
-          // TODO: make this work
-          console.warn("this is loading")
+          // TODO, have this work
           return <Nothing/>
         }}
         fail={() => {
