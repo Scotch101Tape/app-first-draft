@@ -1,6 +1,5 @@
 import { View, Button, Text, Image, ScrollView, Pressable, FlatList, useWindowDimensions, ActivityIndicator, Platform, UIManager, LayoutAnimation } from 'react-native';
 import Navbar from '../Navbar'
-import DemoBox from '../DemoBox';
 import { useState, useRef, useEffect } from 'react';
 import { CODES, findPlaces, findPlacesTest, placeDetails } from '../../util/places';
 import Requires from '../Requires';

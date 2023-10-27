@@ -25,7 +25,8 @@
     "react-native-maps": "1.7.1",
     "react-native-web": "~0.19.6",
     "react-native-webview": "13.2.2",
-    "tz-lookup": "^6.1.25"
+    "tz-lookup": "^6.1.25",
+    "expo-file-system": "~15.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

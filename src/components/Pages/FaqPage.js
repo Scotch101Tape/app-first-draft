@@ -1,5 +1,4 @@
 import {View, Text, Image, Pressable } from 'react-native';
-import DemoBox from '../DemoBox';
 import { PAGE_IDS } from '../../util/constants';
 import Navbar from '../Navbar';
 import { Background, Container, Rect, Bold, C, R } from "../layout"

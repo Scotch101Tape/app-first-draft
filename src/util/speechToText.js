@@ -1,27 +1,24 @@
-import { testingFetcher } from './testing-fetching';
+import { BACKEND_URL, SECRET_APP_KEY } from '../env';
+import * as FileSystem from 'expo-file-system';
 
 export async function getSpeechTranslation({recordingUri}) {
-  // Adapted from https://stackoverflow.com/a/62208160
-  const response = await fetch(recordingUri);
-  const blob = await response.blob();
+  const formData = new FormData();
+  formData.append('file', {
+    uri: recordingUri,
+    type: 'audio/x-wav',
+    name: 'file'
+  });
 
-  // const url = `${BACKEND_URL}/get-speech-to`
-  // const options = {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "X-SECRET-APP-KEY": SECRET_APP_KEY
-  //   },
-  //   body: JSON.stringify({
-  //     target,
-  //     text
-  //   })
-  // }
+  const url = `${BACKEND_URL}/translate-speech`
+  const options = {
+    method: "POST",
+    headers: {
+      "X-SECRET-APP-KEY": SECRET_APP_KEY
+    },
+    body: formData
+  }
 
-  // const result = await (await fetch(url, options)).json()
+  const result = await (await fetch(url, options)).json()
 
-  return testingFetcher({
-    text: "Hello",
-    translation: "مرحبًا"
-  })
+  return result
 }

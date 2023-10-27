@@ -1,6 +1,5 @@
 import {Text, View, StyleSheet, Image, SafeAreaView, Button, StatusBar, Pressable} from "react-native"
 import {PAGE_IDS} from "../../util/constants"
-import DemoBox from "../DemoBox"
 import MyStatusBar from '../MyStatusBar'
 import { Container, R, C } from '../layout'
 

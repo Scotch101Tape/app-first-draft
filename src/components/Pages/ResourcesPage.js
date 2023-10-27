@@ -1,6 +1,5 @@
 import { StyleSheet, View, Button, Pressable, Text, ScrollView, Image, Animated, Platform, UIManager, LayoutAnimation, SectionList, useWindowDimensions } from 'react-native';
 import { Children, useRef, useState, useEffect } from 'react';
-import DemoBox from '../DemoBox';
 import { PAGE_IDS } from '../../util/constants';
 import Navbar from '../Navbar';
 import { R, C, Container, Bold, Circle, Rect, Nothing, randomKey } from "../layout"
