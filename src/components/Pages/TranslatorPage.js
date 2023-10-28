@@ -16,51 +16,51 @@ export default function TranslatorPage({data, setData}) {
   const [translationLoading, setTranslationLoading] = useState(false)
   const textBoxRef = useRef()
 
-  async function startRecording() {
-    try {
-      await Audio.requestPermissionsAsync();
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      });
+  // async function startRecording() {
+  //   try {
+  //     await Audio.requestPermissionsAsync();
+  //     await Audio.setAudioModeAsync({
+  //       allowsRecordingIOS: true,
+  //       playsInSilentModeIOS: true,
+  //     });
 
-      const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
-      );
-      setRecording(recording);
-    } catch (err) {
-      console.warn('Failed to start recording', err);
-    }
-  }
+  //     const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
+  //     );
+  //     setRecording(recording);
+  //   } catch (err) {
+  //     console.warn('Failed to start recording', err);
+  //   }
+  // }
 
-  async function stopRecording() {
-    setRecording(undefined);
-    await recording.stopAndUnloadAsync();
-    await Audio.setAudioModeAsync(
-      {
-        allowsRecordingIOS: false,
-      }
-    );
-    const uri = recording.getURI();
+  // async function stopRecording() {
+  //   setRecording(undefined);
+  //   await recording.stopAndUnloadAsync();
+  //   await Audio.setAudioModeAsync(
+  //     {
+  //       allowsRecordingIOS: false,
+  //     }
+  //   );
+  //   const uri = recording.getURI();
 
-    setTranslation("")
-    setTranslationLoading(true)
-    setText("")
-    setTextLoading(true)
+  //   setTranslation("")
+  //   setTranslationLoading(true)
+  //   setText("")
+  //   setTextLoading(true)
 
-    getSpeechTranslation({recordingUri: uri})
-    .then(({text: newText, translation: newTranslation}) => {
-      setTranslation(newTranslation)
-      setTranslationLoading(false)
-      setText(newText)
-      setTextLoading(false)
-    })
-    .catch((error) => {
-      setTranslationLoading(false)
-      setTextLoading(false)
-      console.warn("Speech translation failed")
-      console.warn(error)
-    })
-  }
+  //   getSpeechTranslation({recordingUri: uri})
+  //   .then(({text: newText, translation: newTranslation}) => {
+  //     setTranslation(newTranslation)
+  //     setTranslationLoading(false)
+  //     setText(newText)
+  //     setTextLoading(false)
+  //   })
+  //   .catch((error) => {
+  //     setTranslationLoading(false)
+  //     setTextLoading(false)
+  //     console.warn("Speech translation failed")
+  //     console.warn(error)
+  //   })
+  // }
 
   const translationButtonPress = () => {
     textBoxRef.current?.blur()
@@ -77,14 +77,14 @@ export default function TranslatorPage({data, setData}) {
     })
   }
 
-  const speechButtonPress = () => {
-    textBoxRef.current?.blur()
-    if (recording) {
-      stopRecording()
-    } else {
-      startRecording()
-    }
-  }
+  // const speechButtonPress = () => {
+  //   textBoxRef.current?.blur()
+  //   if (recording) {
+  //     stopRecording()
+  //   } else {
+  //     startRecording()
+  //   }
+  // }
 
   return <Container style={{backgroundColor: "#DCDADB"}}>
     <Pressable style={{flex: 1}} onPress={Keyboard.dismiss}>
@@ -127,9 +127,9 @@ export default function TranslatorPage({data, setData}) {
         </C>
         <View style={{height: 50, zIndex: 1}}>
           <R style={{justifyContent: "space-evenly", alignItems: "center"}}>
-            <Pressable onPress={speechButtonPress}>
+            {/* <Pressable onPress={speechButtonPress}>
               <Image style={{width: 128, height: 128}} source={recording ? require("../../../assets/page-specific/translator/RecordingButton.png") : require("../../../assets/page-specific/translator/SpeechButton.png")}/>
-            </Pressable>
+            </Pressable> */}
             <Pressable onPress={translationButtonPress}>
               <Image style={{width: 128, height: 128}} source={require("../../../assets/page-specific/translator/TranslateButton.png")}/>
             </Pressable>
